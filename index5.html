@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="rating" content="general" />
+    <link rel="alternate" hreflang="x-default" href="http://mhews.bmkg.go.id" />
+    <link rel="icon" href="http://mhews.bmkg.go.id/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="http://mhews.bmkg.go.id/favicon.ico" type="image/x-icon" />
+    <meta name="keywords" content=" infobmkg,  " />
+    <title>Sumatera Selatan | MHEWS</title>
+    <meta name="title" content="MHEWS" />
+    <meta name="description" content="Displai informasi Meteorologi, Klimatologi dan Geofisika" />
+    <meta name="author" content="MHEWS" />
+    <meta name="subject" content="Badan Meteorologi Klimatologi dan Geofisika" />
+    <meta name="robots" content="noindex" />
+
+    <!-- Style -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""
+    />
+  </head>
+
+  <body>
+    <!-- Modal -->
+
+    <div id="app">
+      <main>
+        <div class="container-fluid" style="text-align: center">
+          <div class="row">
+            <div class="col-lg-12 p-6 main-map">
+              <div class="mt-1 header-map rounded-top p-2 shadow bg-white" style="font-size: 2em" ;></div>
+              <div class="rounded-bottom" id="map-iklim" style="height: 660px; width: 100%"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Script -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        function initCarouselPrakicu() {
+          $("#carousel-prakicu").owlCarousel({
+            autoPlay: 3000,
+            items: 6,
+            itemsDesktop: [1500, 4],
+            itemsDesktopSmall: [979, 3],
+            center: true,
+
+            nav: false,
+            loop: true,
+          });
+        }
+        var linkIklim = [
+          {
+            title: "PETA HARI TANPA HUJAN DASARIAN II DESEMBER 2022",
+            url: "[{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:v_hth_16_202212_2\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sungai_besar_20160613114942\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sumsel17kabupaten_20160603150850\u0022}]",
+          },
+          {
+            title: "(Update 202212) Prakiraan Sifat Hujan Bulan Maret 2023",
+            url: "[{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:psh_0323_20221212034242\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sungai_besar_20160613114942\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sumsel17kabupaten_20160603150850\u0022}]",
+          },
+          {
+            title: "(Update 202212) Prakiraan Sifat Hujan Bulan Februari 2023",
+            url: "[{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:psh_0223_20221212032419\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sungai_besar_20160613114942\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sumsel17kabupaten_20160603150850\u0022}]",
+          },
+          {
+            title: "(Update 202212) Prakiraan Curah Hujan Bulan Maret 2023",
+            url: "[{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:pch_0323_20221212031257\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sungai_besar_20160613114942\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sumsel17kabupaten_20160603150850\u0022}]",
+          },
+          {
+            title: "(Update 202212) Prakiraan Curah Hujan Bulan Februari 2023",
+            url: "[{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:pch_0223_20221212030947\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sungai_besar_20160613114942\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sumsel17kabupaten_20160603150850\u0022}]",
+          },
+          {
+            title: "(Update 202212) Prakiraan Sifat Hujan Bulan Januari 2023",
+            url: "[{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:psh_0123_20221212022959\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sungai_besar_20160613114942\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sumsel17kabupaten_20160603150850\u0022}]",
+          },
+          {
+            title: "(Update 202212) Prakiraan Curah Hujan Bulan Januari 2023",
+            url: "[{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sungai_besar_20160613114942\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sumsel17kabupaten_20160603150850\u0022}]",
+          },
+          {
+            title: "PETA HARI TANPA HUJAN DASARIAN I DESEMBER 2022",
+            url: "[{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:v_hth_16_202212_1\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sungai_besar_20160613114942\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sumsel17kabupaten_20160603150850\u0022}]",
+          },
+          {
+            title: "Distribusi Curah Hujan Bulan November 2022",
+            url: "[{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:ach_2211_20221206090033\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sungai_besar_20160613114942\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sumsel17kabupaten_20160603150850\u0022}]",
+          },
+          {
+            title: "Analisis Sifat Hujan Bulan November 2022",
+            url: "[{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:ash_2211_20221206083927\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sungai_besar_20160613114942\u0022},{\u0022url\u0022:\u0022http:\\\/\\\/sumsel.hidromet.sih3.bmkg.go.id:8080\\\/geoserver\\\/wms\u0022,\u0022layer\u0022:\u0022sipitung:sumsel17kabupaten_20160603150850\u0022}]",
+          },
+        ];
+        var mapiklim = L.map("map-iklim", {
+          zoomControl: false,
+          attributionControl: false,
+        }).setView([-2.990934, 104.756554], 8);
+        L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
+          maxZoom: 12,
+          minZoom: 3,
+        }).addTo(mapiklim);
+        var arrayDefaultlayer = [];
+        var defaultLayer = JSON.parse(linkIklim[0].url);
+        // var defaultLayer = JSON.parse(($('#select-data-iklim option:first').val()));
+        defaultLayer.forEach((element) => {
+          arrayDefaultlayer.push(element.layer);
+        });
+        $(".header-map").text(linkIklim[0].title);
+
+        var wmsLayer = L.tileLayer
+          .wms("http://sumsel.hidromet.sih3.bmkg.go.id:8080/geoserver/wms", {
+            layers: arrayDefaultlayer,
+            format: "image/png",
+            transparent: true,
+          })
+          .addTo(mapiklim);
+
+        function changeDatalayer(currentLayer) {
+          $(".main-map").fadeOut(1000);
+          wmsLayer.setParams(
+            {
+              layers: currentLayer,
+              format: "image/png",
+              transparent: true,
+            },
+            false
+          );
+          $(".main-map").fadeIn(1000);
+        }
+
+        // $('#select-data-iklim').change(function(){
+
+        //     var arrayLayer = [];
+        //     var linkIklim2 = JSON.parse($(this).val());
+        //     linkIklim2.forEach(element => {
+        //         arrayLayer.push(element.layer);
+        //     });
+
+        //     changeDatalayer(arrayLayer);
+
+        // })
+
+        var i = 1;
+
+        setInterval(() => {
+          console.log(i);
+          if (i < linkIklim.length) {
+            var arrayLayer = [];
+            var linkIklim2 = JSON.parse(linkIklim[i].url);
+            // console.log(linkIklim[i].title);
+            linkIklim2.forEach((element) => {
+              arrayLayer.push(element.layer);
+            });
+
+            changeDatalayer(arrayLayer);
+            $(".header-map").text(linkIklim[i].title);
+
+            // console.log(arrayLayer);
+            i++;
+          } else {
+            i = 0;
+          }
+        }, 10000);
+
+        $(".carousel-img").owlCarousel({
+          autoPlay: 3000,
+          items: 1,
+          itemsDesktop: [1300, 1],
+          itemsDesktopSmall: [979, 1],
+          center: true,
+
+          nav: true,
+          loop: true,
+        });
+        //Fancybox
+        $(".popup").fancybox();
+
+        var markerCuaca = "";
+      });
+    </script>
+  </body>
+</html>

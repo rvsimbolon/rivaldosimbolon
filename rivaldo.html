@@ -1,0 +1,44 @@
+<head>
+  <style>
+    #slider {
+      width: 100%;
+      height: 750px;
+      overflow: hidden;
+    }
+
+    .slide {
+      width: 100%;
+      height: 750px;
+      float: left;
+      display: none;
+    }
+
+    .slide:first-of-type {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="slider">
+    <iframe src="index.html" class="slide"></iframe>
+    <iframe src="index2.html" class="slide"></iframe>
+    <iframe src="index3.html" class="slide"></iframe>
+    <iframe src="index4.html" class="slide"></iframe>
+    <iframe src="index5.html" class="slide"></iframe>
+    <iframe src="index6.html" class="slide"></iframe>
+    <iframe src="index7.html" class="slide"></iframe>
+  </div>
+</body>
+
+<script>
+  var slides = document.querySelectorAll(".slide");
+  var currentSlide = 0;
+  var slideInterval = setInterval(nextSlide, 5000);
+
+  function nextSlide() {
+    slides[currentSlide].style.display = "none";
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].style.display = "block";
+  }
+</script>
